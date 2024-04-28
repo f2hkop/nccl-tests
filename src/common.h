@@ -16,6 +16,7 @@
 #include <pthread.h>
 #include "nccl1_compat.h"
 #include "timer.h"
+#include "logger.h"
 
 // For nccl.h < 2.13 since we define a weak fallback
 extern "C" char const* ncclGetLastError(ncclComm_t comm);
@@ -279,8 +280,10 @@ static int ncclstringtoop (char *str) {
     return ncclSum;
 }
 
+
+Logger::getInstance().initialize("log.txt")
 extern int is_main_proc;
 extern thread_local int is_main_thread;
 #define PRINT if (is_main_thread) printf
-
+#define LOG if (is_main_thread) Logger::getInstance().log
 #endif
